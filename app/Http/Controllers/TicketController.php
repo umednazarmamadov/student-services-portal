@@ -10,7 +10,16 @@ class TicketController extends Controller
     // Показать все тикеты
     public function index()
     {
-        $tickets = Ticket::all();
+        $user = auth()->user();
+    
+        if ($user->role === 'admin' || $user->role === 'staff') {
+            // Админ и стафф видят все тикеты
+            $tickets = Ticket::all();
+        } else {
+            // Студент видит только свои тикеты
+            $tickets = Ticket::where('user_id', $user->id)->get();
+        }
+        
         return view('tickets.index', compact('tickets'));
     }
 
@@ -33,7 +42,7 @@ class TicketController extends Controller
             'description' => $request->description,
             'status' => 'open',
             'priority' => $request->priority ?? 'medium',
-            'user_id' => 1
+            'user_id' => auth()->id()
         ]);
 
         return redirect('/tickets');
