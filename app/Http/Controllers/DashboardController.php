@@ -12,7 +12,8 @@ class DashboardController extends Controller
         $open = Ticket::where('status', 'open')->count();
         $in_progress = Ticket::where('status', 'in_progress')->count();
         $closed = Ticket::where('status', 'closed')->count();
+        $recent_tickets = Ticket::latest()->take(5)->get();
 
-        return view('dashboard', compact('total', 'open', 'in_progress', 'closed'));
+        return view('dashboard', compact('total', 'open', 'in_progress', 'closed', 'recent_tickets'));
     }
 }
