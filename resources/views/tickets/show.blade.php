@@ -22,6 +22,38 @@
                     <p>Priority: <span class="font-medium">{{ $ticket->priority }}</span></p>
                     <p>Created: <span class="font-medium">{{ $ticket->created_at->diffForHumans() }}</span></p>
                 </div>
+
+                <!-- Смена статуса -->
+                <div class="mt-6 border-t pt-4">
+                    <p class="text-gray-700 font-medium mb-3">Change Status:</p>
+                    <div class="flex gap-3">
+                        <form method="POST" action="/tickets/{{ $ticket->id }}/status">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="status" value="open">
+                            <button type="submit" style="{{ $ticket->status === 'open' ? 'background:#22c55e;color:white;' : 'background:#dcfce7;color:#166534;' }}" class="px-4 py-2 rounded-lg">
+                                Open
+                            </button>
+                        </form>
+                        <form method="POST" action="/tickets/{{ $ticket->id }}/status">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="status" value="in_progress">
+                            <button type="submit" style="{{ $ticket->status === 'in_progress' ? 'background:#eab308;color:white;' : 'background:#fef9c3;color:#854d0e;' }}" class="px-4 py-2 rounded-lg">
+                                In Progress
+                            </button>
+                        </form>
+                        <form method="POST" action="/tickets/{{ $ticket->id }}/status">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="status" value="closed">
+                            <button type="submit" style="{{ $ticket->status === 'closed' ? 'background:#6b7280;color:white;' : 'background:#f3f4f6;color:#1f2937;' }}" class="px-4 py-2 rounded-lg">
+                                Closed
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="mt-6">
                     <a href="/tickets" class="text-blue-600 hover:underline">← Back to tickets</a>
                 </div>

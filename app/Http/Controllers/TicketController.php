@@ -54,4 +54,10 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($id);
         return view('tickets.show', compact('ticket'));
     }
+    public function updateStatus(Request $request, $id)
+    {
+        $ticket = Ticket::findOrFail($id);
+        $ticket->update(['status' => $request->status]);
+        return redirect('/tickets/' . $id);
+    }
 }
