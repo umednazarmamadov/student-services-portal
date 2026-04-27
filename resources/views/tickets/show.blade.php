@@ -59,7 +59,38 @@
                     </div>
                 </div>
 
+                <!-- AI Suggestion -->
+                <div style="border-top: 0.5px solid #e5e7eb; padding-top: 1.25rem; margin-top: 1.25rem;">
+                    <p style="font-size: 13px; font-weight: 500; color: #111827; margin: 0 0 12px;">AI Suggestion</p>
+                    <button onclick="getAISuggestion({{ $ticket->id }})"
+                        style="padding: 7px 16px; background: #185FA5; color: white; border: none; border-radius: 8px; font-size: 13px; cursor: pointer;">
+                        ✨ Get AI Suggestion
+                    </button>
+                    <div id="ai-result" style="margin-top: 12px; display: none; background: #f0f7ff; border-radius: 8px; padding: 12px; font-size: 14px; color: #111827;"></div>
+                </div>
+
             </div>
+
+            <div style="margin-top: 1.25rem;">
+                <a href="/tickets" style="font-size: 13px; color: #185FA5; text-decoration: none;">← Back to tickets</a>
+            </div>
+
         </div>
     </div>
+
+    <script>
+    function getAISuggestion(ticketId) {
+        document.getElementById('ai-result').style.display = 'block';
+        document.getElementById('ai-result').innerHTML = '⏳ Generating suggestion...';
+
+        fetch('/tickets/' + ticketId + '/suggest')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ai-result').innerHTML = '🤖 ' + data.suggestion;
+            })
+            .catch(error => {
+                document.getElementById('ai-result').innerHTML = 'Error getting suggestion.';
+            });
+    }
+    </script>
 </x-app-layout>

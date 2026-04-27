@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AIController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,7 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/tickets/create', [TicketController::class, 'create']);
     Route::post('/tickets', [TicketController::class, 'store']);
     Route::get('/tickets/{id}', [TicketController::class, 'show']);
-    Route::patch('/tickets/{id}/status', [TicketController::class, 'updateStatus'])->name('tickets.updateStatus'); // добавь сюда
+    Route::patch('/tickets/{id}/status', [TicketController::class, 'updateStatus'])->name('tickets.updateStatus');
+    Route::get('/tickets/{id}/suggest', [AIController::class, 'suggest'])->name('tickets.suggest'); // добавь сюда
 });
 
 require __DIR__.'/auth.php';
